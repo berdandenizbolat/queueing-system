@@ -5,6 +5,10 @@
     var socket = io();
     var existingLine = [];
 
+    socket.on("question", ()=>{
+        socket.emit("answer", "line")
+    })
+
     socket.on('informpageholder', function(e){
         informplace = document.getElementById("name");
         informplace.innerHTML = e;
