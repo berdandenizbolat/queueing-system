@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html id="newHTML">
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io();
+    var existingLine = [];
+
+    socket.on('informpageholder', function(e){
+        informplace = document.getElementById("name");
+        informplace.innerHTML = e;
+    })
+    socket.on('informline', function(e){
+        list=document.getElementById('list')
+        e.forEach((elem)=>{
+            if (!existingLine.includes(elem)){
+                newItem = document.createElement('li');
+                newItem.innerHTML = elem;
+                list.appendChild(newItem);
+                existingLine.push(elem);
+            }
+        })
+    })
+    socket.on('informnewline', function(e){
+        queue = document.getElementById("queue")
+        list=document.getElementById('list')
+        list.remove();
+        list = document.createElement('ol');
+        list.id="list";
+        queue.appendChild(list)
+        existingLine = [];
+        e.forEach((elem)=>{
+            if (!existingLine.includes(elem)){
+                newItem = document.createElement('li');
+                newItem.innerHTML = elem;
+                list.appendChild(newItem);
+                existingLine.push(elem);
+            }
+        })
+    })
+    socket.on(("next"), async function(e){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+                document.getElementById("newHTML").innerHTML = xhttp.responseText;
+            }
+        };
+        xhttp.open("POST", "result", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("pass="+`${e}`);
+    })
+
+</script>
+<head>
+<link rel="import" href="/sbir.html">
+<title>Queue Page</title>
+</head>
+<body>
+<div id="pageholder">
+    <p>Currently the page is occupied by
+    <b><span id="name" placeholder="Unknown"></span></b>.</p>
+</div>
+<p>Waiting Queue:</p>
+<div id="queue">
+    <ol id = "list">
+    </ol>
+</div>
+
+</body>
+
+</html>
