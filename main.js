@@ -8,8 +8,7 @@ const path = require('path');
 
 const PORT = process.env.PORT || 3000;
 
-app.use(express.urlencoded({ extended: false }))
-
+app.use(express.urlencoded({ extended: false }));
 let lock = false;
 let placeholder = "";
 let line =[];
@@ -17,8 +16,14 @@ let socket_ids = [];
 let socket_id_query = "";
 let main_id = "";
 
+
 app.get('/', (req, res)=>{
     res.redirect("/login");
+})
+
+
+app.get('/sketch.js', (req, res)=>{
+    res.sendFile(path.join(__dirname, '/sketch.js'));
 })
 
 app.post('/', (req, res, next)=>{

@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html>
-<script src="/socket.io/socket.io.js"></script>
-<script>
-  var socket = io();
-  socket.on("question", ()=>{
-      socket.emit("answer", "sbir")
-  })
-</script>
+
 <head>
+    <meta charset="utf-8" />
     <title>Sketch Based Image Retrieval</title>
+    <script src="/sketch.js" type="application/javascript"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+        socket.on("question", ()=>{
+            socket.emit("answer", "sbir")
+        })
+    </script>
 </head>
 <body>
-
-    <h1>To be added later...</h1>
-
+<canvas id="can" width="500" height="500" style="position:absolute;top:40%;left:5%;border:2px solid;"></canvas>
+<img id="canvasimg" style="position:absolute;top:52%;left:52%;" style="display:none;">
+<input type="button" value="Project to Manifold" id="btn" onclick="convert()" style="height:40px;width:80px;position:absolute;top:72%;left:5.95%;">
+<input type="button" value="Clear Sketch" id="clr" size="75" onclick="erase()" style="height:40px;width:80px;position:absolute;top:72%;left:10.95%;">
+<button id="upl1" style="position:absolute;top:74.42%;left:15.95%;width:80px;height:40px;" onclick="document.getElementById('upl').click()">Upload</button>
+<input type="file" id="upl" name="file1" style="visibility:hidden">
 </body>
 </html>
